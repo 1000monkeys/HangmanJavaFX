@@ -3,7 +3,7 @@ package com.kjellvos.school;
 /**
  * Created by kjevo on 2/17/17.
  */
-public class Letters {
+public class Letter {
     private char letter;
     private boolean isGuessed, partOfWordToGuess;
 
@@ -13,7 +13,7 @@ public class Letters {
      * @param isGuessed if the player has already tried to guess this letter
      * @param partOfWordToGuess if this letter is part of the word the player has to guess
      */
-    public Letters(char letter, boolean isGuessed, boolean partOfWordToGuess){
+    public Letter(char letter, boolean isGuessed, boolean partOfWordToGuess){
         this.letter = letter;
         this.isGuessed = isGuessed;
         this.partOfWordToGuess = partOfWordToGuess;

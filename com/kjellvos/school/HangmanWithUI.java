@@ -11,7 +11,7 @@ import java.util.Random;
  */
 public class HangmanWithUI {
     private String alphabetString;
-    private Letters[] letters;
+    private Letter[] letters;
     private char[] alphabet;
     private String wordPlayerTriesToGuess;
     private char[] wordPlayerTriesToGuessCharArray;
@@ -27,9 +27,9 @@ public class HangmanWithUI {
         alphabet = alphabetString.toCharArray();
 
         int i = 0;
-        letters = new Letters[26];
+        letters = new Letter[26];
         while (i < 26){
-            letters[i] = new Letters(alphabet[i], false, false);
+            letters[i] = new Letter(alphabet[i], false, false);
             i++;
         }
     }
@@ -40,6 +40,7 @@ public class HangmanWithUI {
     public void setupGame(){
         setupLettersWithRandomWord();
         main.setupCanvasWithWords(main.getGraphicsContext(), getLetters());
+        main.createHangMan(main.getGraphicsContext());
     }
 
     /**
@@ -57,6 +58,7 @@ public class HangmanWithUI {
             alert.showAndWait();
         }
         if (checkIfEntireWordGuessed()){
+            reRender();
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setTitle("Je hebt het woord geraden!");
             alert.setHeaderText("Wil je Nog een keer spelen?");
@@ -95,7 +97,8 @@ public class HangmanWithUI {
      * TODO
      */
     private void checkIfTooManyMistakes(){
-        if(getAmountOfMistakes() > 9){
+        if(getAmountOfMistakes() > 10){
+            reRender();
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setTitle("Teveel fout!");
             alert.setHeaderText("Wil je opnieuw beginnen?");
@@ -123,7 +126,7 @@ public class HangmanWithUI {
      * Returns the letters array to another class for for example
      * @return Letters array
      */
-    public Letters[] getLetters() {
+    public Letter[] getLetters() {
         return letters;
     }
 
@@ -170,7 +173,7 @@ public class HangmanWithUI {
     private void reRender(){
         main.createBorderAndBackground(main.getGraphicsContext());
         main.setupCanvasWithWords(main.getGraphicsContext(), letters);
-        main.createHangMan();
+        main.createHangMan(main.getGraphicsContext());
     }
 
     /**
@@ -248,7 +251,7 @@ public class HangmanWithUI {
         words[49] = "verzenden";
 
         Random random = new Random();
-        String word = words[random.nextInt(50) + 1];
+        String word = words[random.nextInt(50)];
         if(Main.DEBUG){
             System.out.println(word);
         }

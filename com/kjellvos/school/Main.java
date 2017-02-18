@@ -9,6 +9,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -66,6 +67,11 @@ public class Main extends Application {
         textField.setPrefWidth(60D);
         textField.setAlignment(Pos.CENTER);
         textField.relocate(offsetX + (label.getWidth()) + padding, offsetY);
+        textField.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER){
+                preTakeInput();
+            }
+        });
         pane.getChildren().add(textField);
         pane.applyCss();
         pane.layout();
@@ -73,9 +79,7 @@ public class Main extends Application {
         button = new Button("Raden!");
         button.setOnMouseClicked(event -> {
             if(textField.getText().length() == 1) {
-                char[] letter = textField.getText().toCharArray();
-                textField.setText("");
-                hangmanWithUI.takeInput(letter[0]);
+                preTakeInput();
             }
         });
         button.setFont(font);
@@ -96,11 +100,19 @@ public class Main extends Application {
         hangmanWithUI.setupGame();
     }
 
+    private void preTakeInput(){
+        if(textField.getText().length() > 0) {
+            char[] letter = textField.getText().toCharArray();
+            textField.setText("");
+            hangmanWithUI.takeInput(letter[0]);
+        }
+    }
+
     public GraphicsContext getGraphicsContext() {
         return graphicsContext;
     }
 
-    public void setupCanvasWithWords(GraphicsContext gc, Letters[] letters) {
+    public void setupCanvasWithWords(GraphicsContext gc, Letter[] letters) {
         double topPadding = 20D, leftPadding = 5D;
 
         Text tempText = null;
@@ -158,38 +170,66 @@ public class Main extends Application {
         }
     }
 
-    public void createHangMan(){
+    public void createHangMan(GraphicsContext gc){
+        gc.setFill(Color.BLACK);
+        gc.moveTo(200D, 25D);
+        gc.lineTo(200D, 0D);
+        gc.fillOval(145D, 20D, 110D, 110D);
+        gc.stroke();
+        gc.setFill(Color.GRAY);
+        gc.fillOval(147.5D, 22.5D, 105D, 105D);
+        gc.stroke();
+        gc.setFill(Color.BLACK);
+
+
         int amountOfMistakes = hangmanWithUI.getAmountOfMistakes();
         if (amountOfMistakes > 0) {
-
+            gc.moveTo(150D, 400D);
+            gc.lineTo(200D, 250D);
         }
         if (amountOfMistakes > 1) {
-
+            gc.moveTo(250D, 400D);
+            gc.lineTo(200D, 250D);
         }
         if (amountOfMistakes > 2) {
-
+            gc.moveTo(150D, 400D);
+            gc.lineTo(100D, 400D);
         }
         if (amountOfMistakes > 3) {
-
+            gc.moveTo(250D, 400D);
+            gc.lineTo(300D, 400D);
         }
         if (amountOfMistakes > 4) {
-
+            gc.fillRect(150D, 150D, 100D, 100D);
         }
         if (amountOfMistakes > 5) {
-
+            gc.moveTo(150D, 150D);
+            gc.lineTo(100D, 250D);
         }
         if (amountOfMistakes > 6) {
-
+            gc.moveTo(250D, 150D);
+            gc.lineTo(300D, 250D);
         }
         if (amountOfMistakes > 7) {
-
+            gc.moveTo(300D, 250D);
+            gc.lineTo(325D, 275D);
+            gc.moveTo(300D, 250D);
+            gc.lineTo(275D, 275D);
         }
         if (amountOfMistakes > 8) {
-
+            gc.moveTo(100D, 250D);
+            gc.lineTo(125D, 275D);
+            gc.moveTo(100D, 250D);
+            gc.lineTo(75D, 275D);
         }
         if (amountOfMistakes > 9) {
-
+            gc.moveTo(200D, 150D);
+            gc.lineTo(200D, 125D);
         }
+        if (amountOfMistakes > 10){
+            gc.fillOval(150D, 25D, 100, 100D);
+        }
+        gc.stroke();
     }
 
     public void createBorderAndBackground(GraphicsContext gc){
