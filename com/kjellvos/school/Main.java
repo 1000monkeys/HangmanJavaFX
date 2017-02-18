@@ -19,7 +19,6 @@ import java.util.function.UnaryOperator;
 
 /*
 TODO enter is ook raden!
-ALLE COMMENTS!
  */
 
 public class Main extends Application {
